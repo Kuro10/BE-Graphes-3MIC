@@ -193,11 +193,25 @@ public class Path {
      * 
      * @return true if the path is valid, false otherwise.
      * 
-     * @deprecated Need to be implemented.
+     * Need to be implemented.
      */
     public boolean isValid() {
         // TODO:
-        return false;
+    	boolean res = false;
+    	if (this.size() <= 1)
+    		res = true;
+    	else{
+    		if (this.getOrigin() == this.arcs.get(0).getOrigin()) {
+    			res =  true;
+    		}
+    		int i=0;
+    		while (res && i+2 < this.size()) {
+    			res = (this.arcs.get(i).getDestination() == this.arcs.get(i+1).getOrigin());  
+    			i++;
+    		}
+    	}
+		
+        return res; 
     }
 
     /**
@@ -210,7 +224,7 @@ public class Path {
     public float getLength() {
         //done
     	float length = 0;
-    	for (Arc monArc : arcs) {
+    	for (Arc monArc : this.arcs) {
     		length += monArc.getLength();
     	}
         return length;
@@ -229,7 +243,7 @@ public class Path {
     public double getTravelTime(double speed) {
         //done
     	double time=0;
-    	for (Arc monArc : arcs) {
+    	for (Arc monArc : this.arcs) {
     		time += monArc.getTravelTime(speed);
     	}
         return time;
@@ -246,7 +260,7 @@ public class Path {
     public double getMinimumTravelTime() {
         //done
     	double time=0;
-    	for (Arc monArc : arcs) {
+    	for (Arc monArc : this.arcs) {
     		time += monArc.getMinimumTravelTime();
     	}
         return time;

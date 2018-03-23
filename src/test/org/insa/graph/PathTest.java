@@ -112,7 +112,6 @@ public class PathTest {
         assertTrue(longPath.isValid());
         assertTrue(loopPath.isValid());
         assertTrue(longLoopPath.isValid());
-
         assertFalse(invalidPath.isValid());
     }
 
