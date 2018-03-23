@@ -2,6 +2,7 @@ package org.insa.graph;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -25,13 +26,39 @@ public class Path {
      * @throws IllegalArgumentException If the list of nodes is not valid, i.e. two
      *         consecutive nodes in the list are not connected in the graph.
      * 
-     * @deprecated Need to be implemented.
+     * Need to be implemented.
      */
     public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
         // TODO:
-        return new Path(graph, arcs);
+        Path fastestPath; 
+        for (int i=0;i<nodes.size()-1;i++){
+        	//Find the fastest path from node i to node i+1
+        	Iterator <Arc> listArcsFromNode_i = nodes.get(i).iterator();
+        	double min = 1000;
+        	Arc arcMin = null;
+        	boolean ok = false;
+        	while (listArcsFromNode_i.hasNext()) {
+        		Arc myArc = listArcsFromNode_i.next();
+        		if (myArc.getDestination() == nodes.get(i+1) && min > myArc.getMinimumTravelTime()) {
+        			min = myArc.getMinimumTravelTime();
+        			arcMin = myArc;
+        			ok = true;
+        		}
+        	}
+        	arcs.add(i, arcMin);
+        	if (!ok) {
+        		throw new IllegalArgumentException("Two consecutive nodes in the list are not connected in the graph.");
+        	}
+        }
+        if (nodes.size()==0)
+        	fastestPath = new Path(graph);
+        else if (nodes.size()==1)
+        	fastestPath = new Path(graph,nodes.get(0));
+        else
+        	fastestPath = new Path(graph,arcs);
+        return fastestPath;
     }
 
     /**
@@ -196,7 +223,7 @@ public class Path {
      * Need to be implemented.
      */
     public boolean isValid() {
-        // TODO:
+        //done
     	boolean res = false;
     	if (this.size() <= 1)
     		res = true;

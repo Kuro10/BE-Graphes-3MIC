@@ -38,7 +38,7 @@ public class GraphStatistics {
         }
 
         /**
-         * @return Bottom-right point of this boundin box.
+         * @return Bottom-right point of this bounding box.
          */
         public Point getBottomRightPoint() {
             return bottomRight;
