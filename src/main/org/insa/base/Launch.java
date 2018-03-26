@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
+import java.io.InputStream;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -12,10 +13,12 @@ import javax.swing.SwingUtilities;
 import org.insa.graph.Graph;
 import org.insa.graph.Path;
 import org.insa.graph.io.BinaryGraphReader;
+import org.insa.graph.io.BinaryPathReader;
 import org.insa.graph.io.GraphReader;
 import org.insa.graph.io.PathReader;
 import org.insa.graphics.drawing.Drawing;
 import org.insa.graphics.drawing.components.BasicDrawing;
+import org.insa.graphics.drawing.overlays.PathOverlay;
 
 public class Launch {
 
@@ -51,22 +54,28 @@ public class Launch {
         GraphReader reader = new BinaryGraphReader(
                 new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
 
-        // TODO: Read the graph.
+        //done Read the graph.
         Graph graph = null;
+        graph = reader.read();
+        
 
         // Create the drawing:
         Drawing drawing = createDrawing();
 
-        // TODO: Draw the graph on the drawing.
-
-        // TODO: Create a PathReader.
+        //done Draw the graph on the drawing.
+        drawing.drawGraph(graph);
+        
+        //done Create a PathReader.
         PathReader pathReader = null;
-
-        // TODO: Read the path.
+        pathReader = new BinaryPathReader( 
+        		new DataInputStream ( new BufferedInputStream ( new FileInputStream(pathName))));;
+        
+        //done Read the path.
         Path path = null;
-
+        path = pathReader.readPath(graph);
+        
         // TODO: Draw the path.
-
+        PathOverlay pathOverlay = drawing.drawPath(path);
     }
 
 }

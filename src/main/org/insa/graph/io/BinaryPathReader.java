@@ -26,7 +26,7 @@ public class BinaryPathReader extends BinaryReader implements PathReader {
     public BinaryPathReader(DataInputStream dis) {
         super(MAGIC_NUMBER, VERSION, dis);
     }
-
+    
     @Override
     public Path readPath(Graph graph) throws IOException {
 
