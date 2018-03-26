@@ -1,15 +1,15 @@
 package org.insa.algo.utils;
 
-public class BinaryHeapTest extends PriorityQueueTest {
+public class BinarySearchTreeTest extends PriorityQueueTest {
 
     @Override
     public PriorityQueue<MutableInteger> createQueue() {
-        return new BinaryHeap<>();
+        return new BinarySearchTree<>();
     }
 
     @Override
     public PriorityQueue<MutableInteger> createQueue(PriorityQueue<MutableInteger> queue) {
-        return new BinaryHeap<>((BinaryHeap<MutableInteger>) queue);
+        return new BinarySearchTree<>((BinarySearchTree<MutableInteger>) queue);
     }
 
 }
