@@ -1,16 +1,28 @@
 package org.insa.graph;
 
 public class Label implements Comparable<Label>{
-	public double cout;
-	private Node precedent;
+	private int id;
+	private double cost;
+	private Arc father;
 	private boolean mark;
 	
-	public int compareTo(Label autre) {
-		return (int)(this.cout-autre.cout);
+	public Label(int id, double cost,Arc father, boolean mark) {
+		this.id = id;
+		this.cost = cost;
+		this.father = father;
+		this.mark = mark;
 	}
 	
-	public Node getFather() {
-		return this.precedent;
+	public int getId() {
+		return this.id;
+	}
+	
+	public Arc getFather() {
+		return this.father;
+	}
+	
+	public void setFather(Arc father) {
+		this.father = father;
 	}
 	
 	public boolean isMarked() {
@@ -19,5 +31,17 @@ public class Label implements Comparable<Label>{
 	
 	public void setMark(boolean mark) {
 		this.mark=mark;
+	}
+	
+	public void setCost(double cost) {
+		this.cost = cost;
+	}
+	
+	public double getCost () {
+		return this.cost;
+	}
+	
+	public int compareTo(Label autre) {
+		return (int)(this.cost-autre.cost);
 	}
 }

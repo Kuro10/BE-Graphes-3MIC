@@ -305,7 +305,6 @@ public abstract class PriorityQueueTest {
 
     @Test
     public void testRemoveThenAdd() {
-    	System.out.println(queue.isEmpty());
         Assume.assumeFalse(queue.isEmpty());
         int min = Collections.min(Arrays.asList(parameters.data)).get();
         for (MutableInteger mi: parameters.data) {
