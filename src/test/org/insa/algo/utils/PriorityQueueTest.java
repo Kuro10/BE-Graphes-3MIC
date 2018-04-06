@@ -220,6 +220,7 @@ public abstract class PriorityQueueTest {
 
     @Test
     public void testRemoveNotFound() {
+
         Assume.assumeFalse(queue.isEmpty());
         List<MutableInteger> data = Arrays.asList(parameters.data);
         MutableInteger min = new MutableInteger(Collections.min(data).get() - 1),
@@ -242,7 +243,7 @@ public abstract class PriorityQueueTest {
 
     @Test
     public void testDeleteThenRemove() {
-        Assume.assumeFalse(queue.isEmpty());
+        Assume.assumeFalse(queue.isEmpty()); 
         while (!queue.isEmpty()) {
             MutableInteger min = queue.deleteMin();
             try {
@@ -250,7 +251,7 @@ public abstract class PriorityQueueTest {
                 fail("Expected exception " + ElementNotFoundException.class.getName());
             }
             catch (ElementNotFoundException e) {
-                assertEquals(e.getElement(), min);
+                assertEquals(e.getElement(), min); 
             }
         }
     }
@@ -304,6 +305,7 @@ public abstract class PriorityQueueTest {
 
     @Test
     public void testRemoveThenAdd() {
+    	System.out.println(queue.isEmpty());
         Assume.assumeFalse(queue.isEmpty());
         int min = Collections.min(Arrays.asList(parameters.data)).get();
         for (MutableInteger mi: parameters.data) {
