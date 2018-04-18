@@ -22,7 +22,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
     protected ShortestPathSolution doRun() {
         ShortestPathData data = getInputData();
         ShortestPathSolution solution = null;
-        // TODO:
+
         //Retrieve the graph.
         Graph graph = data.getGraph();
         
@@ -85,10 +85,6 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
 					if(Double.isInfinite(oldDistance)) {
 						queue.insert(labels[arc.getDestination().getId()]);
-						//System.out.println("Insertedd " + labels[arc.getDestination().getId()] );
-						if (arc.getDestination().getId() == 620) {
-							System.out.println("620 IN");
-						}
 					}
 					else {
 						queue.insert(labels[arc.getDestination().getId()]);
