@@ -220,7 +220,6 @@ public abstract class PriorityQueueTest {
 
     @Test
     public void testRemoveNotFound() {
-
         Assume.assumeFalse(queue.isEmpty());
         List<MutableInteger> data = Arrays.asList(parameters.data);
         MutableInteger min = new MutableInteger(Collections.min(data).get() - 1),

@@ -1,7 +1,6 @@
 package org.insa.algo.shortestpath;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 import org.insa.algo.AbstractSolution.Status;
@@ -46,11 +45,15 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         queue.insert(labels[data.getOrigin().getId()]);
         int nbMarkedNodes = 0;
         //While there are some unmarked nodes
-        while (nbMarkedNodes != nbNodes) {
-        	
+        while (nbMarkedNodes != nbNodes && !queue.isEmpty()) {
+        	//queue.printSorted();
+
         	//Find the minimum of the table "Distances"
         	int costMin = queue.findMin().getId();
+        	
+        	//System.out.println("Deleted " + labels[costMin]);
         	queue.deleteMin();
+        	 
         	labels[costMin].setMark(true);
         	nbMarkedNodes++;
         	Node markedNode = graph.get(labels[costMin].getId());
@@ -66,6 +69,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 				double oldDistance = labels[arc.getDestination().getId()].getCost();
 				double newDistance = labels[markedNode.getId()].getCost() + w;
 				
+
 				if (Double.isInfinite(oldDistance) && Double.isFinite(newDistance)) {
 					notifyNodeReached(arc.getDestination());
 				}
@@ -75,19 +79,25 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 					labels[arc.getDestination().getId()].setCost(newDistance);
 					labels[arc.getDestination().getId()].setFather(arc);
 					//if this node doesn't exist in the queue, we insert it into the queue
-					//else update it 
+					//else update it, In fact, since the binary heap is automatically sorted,
+					//we only need to insert labels with new better distance in it
+					//without removing the old ones
+
 					if(Double.isInfinite(oldDistance)) {
 						queue.insert(labels[arc.getDestination().getId()]);
+						//System.out.println("Insertedd " + labels[arc.getDestination().getId()] );
+						if (arc.getDestination().getId() == 620) {
+							System.out.println("620 IN");
+						}
 					}
 					else {
-						queue.remove(new Label(0,oldDistance,null,false));
 						queue.insert(labels[arc.getDestination().getId()]);
 					}
 				}
         	}
         }
         
-        
+     
         //Destination has no predecessor, the solution is infeasible...  
         if (labels[data.getDestination().getId()].getFather() == null) {
         	solution = new ShortestPathSolution (data, Status.INFEASIBLE);
@@ -101,7 +111,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	Arc arc = labels[data.getDestination().getId()].getFather();
         	while (arc != null) {
         		arcs.add(arc);
-        		arc = labels[data.getDestination().getId()].getFather();
+        		arc = labels[arc.getOrigin().getId()].getFather();
         	}
         	
         	//Reserve the path...

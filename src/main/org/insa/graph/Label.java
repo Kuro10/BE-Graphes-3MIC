@@ -44,4 +44,8 @@ public class Label implements Comparable<Label>{
 	public int compareTo(Label autre) {
 		return (int)(this.cost-autre.cost);
 	}
+	
+	public String toString() {
+		return "id = " + this.id + ", cost = " + this.cost + ", father =  " + this.father + ", mark = "+ this.mark; 
+	}
 }
