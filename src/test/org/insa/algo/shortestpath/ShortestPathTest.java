@@ -2,10 +2,6 @@ package org.insa.algo.shortestpath;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -18,8 +14,6 @@ import org.insa.graph.Node;
 //import org.insa.graph.Path;
 import org.insa.graph.RoadInformation;
 import org.insa.graph.RoadInformation.RoadType;
-import org.insa.graph.io.BinaryGraphReader;
-import org.insa.graph.io.GraphReader;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -80,7 +74,6 @@ public class ShortestPathTest {
 	    		BellmanFordAlgorithm algo2 = new BellmanFordAlgorithm(data1);
 	    		if (algo1.doRun().getStatus() == Status.OPTIMAL && algo2.doRun().getStatus() == Status.OPTIMAL ) {
 	    			assertEquals((int)algo1.doRun().getPath().getLength(), (int)algo2.doRun().getPath().getLength());	
-		    		assertEquals((int)algo1.doRun().getPath().getMinimumTravelTime(), (int)algo2.doRun().getPath().getMinimumTravelTime());
 	    		}
     		}	
     	}

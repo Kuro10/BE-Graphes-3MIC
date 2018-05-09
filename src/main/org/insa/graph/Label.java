@@ -1,12 +1,12 @@
 package org.insa.graph;
 
 public class Label implements Comparable<Label>{
-	private int id;
-	private double cost;
-	private Arc father;
-	private boolean mark;
+	protected int id;
+	protected double cost;
+	protected Arc father;
+	protected boolean mark;
 	
-	public Label(int id, double cost,Arc father, boolean mark) {
+	public Label(int id, double cost, Arc father, boolean mark) {
 		this.id = id;
 		this.cost = cost;
 		this.father = father;
