@@ -49,12 +49,12 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         //Notify observes about the first event (origin processed).
         notifyOriginProcessed(data.getOrigin());
                 
-        //Algorithm of Dijkstra. 
+        //Algorithm of AStar  
         BinaryHeap <Label> queue = new BinaryHeap<Label>();
         queue.insert(labels[data.getOrigin().getId()]);
         int nbMarkedNodes = 0;
         //While there are some unmarked nodes
-        while (nbMarkedNodes != nbNodes && !queue.isEmpty()) {
+        while (nbMarkedNodes != nbNodes && !queue.isEmpty() && !labels[data.getDestination().getId()].isMarked()) {
         	//queue.printSorted();
 
         	//Find the minimum of the table "Distances"
@@ -62,8 +62,8 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         	
         	//System.out.println("Deleted " + labels[costMin]);
         	queue.deleteMin();
-        	 
-        	labels[costMin].setMark(true);
+    
+        	labels[costMin].setMark(true);        	
         	nbMarkedNodes++;
         	Node markedNode = graph.get(labels[costMin].getId());
         	for (Arc arc : markedNode) {
@@ -76,7 +76,9 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
 				// Retrieve weight of the arc.
 				double w = data.getCost(arc);
 				double oldDistance = labels[arc.getDestination().getId()].getCost();
-				double newDistance = labels[markedNode.getId()].getCost() + w;
+				double newDistance = labels[markedNode.getId()].getCost() + w 
+						- labels[markedNode.getId()].getCostEstimate() 
+						+ labels[arc.getDestination().getId()].getCostEstimate();
 				
 
 				if (Double.isInfinite(oldDistance) && Double.isFinite(newDistance)) {
@@ -85,7 +87,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
 				
 				// Check if new distances would be better, if so update...
 				if (newDistance < oldDistance) {
-					labels[arc.getDestination().getId()].setCost(newDistance);
+					labels[arc.getDestination().getId()].setCost(newDistance - labels[arc.getDestination().getId()].getCostEstimate());
 					labels[arc.getDestination().getId()].setFather(arc);
 					//if this node doesn't exist in the queue, we insert it into the queue
 					//else update it, In fact, since the binary heap is automatically sorted,
@@ -105,6 +107,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         //Destination has no predecessor, the solution is infeasible...  
         if (labels[data.getDestination().getId()].getFather() == null) {
         	solution = new ShortestPathSolution (data, Status.INFEASIBLE);
+        	
         }else {
         	
         	// The destination has been found, notify the observers.

@@ -1,6 +1,6 @@
 package org.insa.graph;
 
-public class LabelStar extends Label {
+public class LabelStar extends Label  {
 	
 	private double costEstimate; // the estimated cost between the given node and the destination based on the skyway
 	
@@ -14,17 +14,27 @@ public class LabelStar extends Label {
 		this.costEstimate = costEstimate;
 	}	
 	
+	@Override
 	public double getCostEstimate() {
 		return this.costEstimate;
 	}
 	
+	
+	@Override
+	public double getCost () {
+		return this.cost + this.costEstimate; 
+	}
+	
+	
+	/*  
 	@Override
 	public int compareTo(Label autre) {
-		return (int)(this.getCost() + this.costEstimate -autre.getCost() - ((LabelStar)autre).getCostEstimate());
-	}
+		return (int)(this.getCost()+this.getCostEstimate()-autre.getCost() - ((LabelStar)autre).getCostEstimate());
+	}*/
 	
 	@Override 
 	public String toString() {
 		return super.toString() + ", costEstimate = " + this.costEstimate; 
 	}
+	
 }

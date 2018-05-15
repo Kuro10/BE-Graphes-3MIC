@@ -45,7 +45,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         queue.insert(labels[data.getOrigin().getId()]);
         int nbMarkedNodes = 0;
         //While there are some unmarked nodes
-        while (nbMarkedNodes != nbNodes && !queue.isEmpty()) {
+        while (nbMarkedNodes != nbNodes && !queue.isEmpty() && !labels[data.getDestination().getId()].isMarked() ) {
         	//queue.printSorted();
 
         	//Find the minimum of the table "Distances"

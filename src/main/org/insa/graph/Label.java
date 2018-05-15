@@ -41,8 +41,13 @@ public class Label implements Comparable<Label>{
 		return this.cost;
 	}
 	
+	public double getCostEstimate() {
+		return 0;
+	}
+	
+	@Override
 	public int compareTo(Label autre) {
-		return (int)(this.cost-autre.cost);
+		return (int)(this.getCost()-autre.getCost());
 	}
 	
 	public String toString() {
