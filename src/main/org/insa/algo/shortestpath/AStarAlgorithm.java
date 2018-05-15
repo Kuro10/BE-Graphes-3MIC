@@ -86,19 +86,16 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
 				}
 				
 				// Check if new distances would be better, if so update...
-				if (newDistance < oldDistance) {
+				if (newDistance < oldDistance ) {
+					
 					labels[arc.getDestination().getId()].setCost(newDistance - labels[arc.getDestination().getId()].getCostEstimate());
 					labels[arc.getDestination().getId()].setFather(arc);
 					//if this node doesn't exist in the queue, we insert it into the queue
 					//else update it, In fact, since the binary heap is automatically sorted,
 					//we only need to insert labels with new better distance in it
 					//without removing the old ones
-					if(Double.isInfinite(oldDistance)) {
-						queue.insert(labels[arc.getDestination().getId()]);
-					}
-					else {
-						queue.insert(labels[arc.getDestination().getId()]);
-					}
+					queue.insert(labels[arc.getDestination().getId()]);
+					
 				}
         	}
         }

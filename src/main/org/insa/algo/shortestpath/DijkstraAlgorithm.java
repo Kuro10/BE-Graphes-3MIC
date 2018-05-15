@@ -82,12 +82,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 					//else update it, In fact, since the binary heap is automatically sorted,
 					//we only need to insert labels with new better distance in it
 					//without removing the old ones
-					if(Double.isInfinite(oldDistance)) {
-						queue.insert(labels[arc.getDestination().getId()]);
-					}
-					else {
-						queue.insert(labels[arc.getDestination().getId()]);
-					}
+					queue.insert(labels[arc.getDestination().getId()]);
+
 				}
         	}
         }
