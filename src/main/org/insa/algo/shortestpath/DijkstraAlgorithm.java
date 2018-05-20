@@ -43,9 +43,9 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         //Algorithm of Dijkstra. 
         BinaryHeap <Label> queue = new BinaryHeap<Label>();
         queue.insert(labels[data.getOrigin().getId()]);
-        int nbMarkedNodes = 0;
+
         //While there are some unmarked nodes
-        while (nbMarkedNodes != nbNodes && !queue.isEmpty() && !labels[data.getDestination().getId()].isMarked() ) {
+        while (!queue.isEmpty() && !labels[data.getDestination().getId()].isMarked() ){
         	//queue.printSorted();
 
         	//Find the minimum of the table "Distances"
@@ -53,9 +53,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	
         	//System.out.println("Deleted " + labels[costMin]);
         	queue.deleteMin();
-        	 
         	labels[costMin].setMark(true);
-        	nbMarkedNodes++;
+
         	Node markedNode = graph.get(labels[costMin].getId());
         	for (Arc arc : markedNode) {
         		
@@ -83,12 +82,10 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 					//we only need to insert labels with new better distance in it
 					//without removing the old ones
 					queue.insert(labels[arc.getDestination().getId()]);
-
 				}
         	}
         }
-        
-     
+              
         //Destination has no predecessor, the solution is infeasible...  
         if (labels[data.getDestination().getId()].getFather() == null) {
         	solution = new ShortestPathSolution (data, Status.INFEASIBLE);

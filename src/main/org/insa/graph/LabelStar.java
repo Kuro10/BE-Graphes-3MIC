@@ -26,12 +26,6 @@ public class LabelStar extends Label  {
 	}
 	
 	
-	/*  
-	@Override
-	public int compareTo(Label autre) {
-		return (int)(this.getCost()+this.getCostEstimate()-autre.getCost() - ((LabelStar)autre).getCostEstimate());
-	}*/
-	
 	@Override 
 	public String toString() {
 		return super.toString() + ", costEstimate = " + this.costEstimate; 

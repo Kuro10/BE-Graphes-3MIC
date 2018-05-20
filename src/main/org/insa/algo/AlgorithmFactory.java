@@ -7,11 +7,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.insa.algo.carpooling.CarPoolingAlgorithm;
+import org.insa.algo.carpooling.CovoiturageAlgorithm;
 import org.insa.algo.shortestpath.AStarAlgorithm;
 import org.insa.algo.shortestpath.BellmanFordAlgorithm;
 import org.insa.algo.shortestpath.DijkstraAlgorithm;
 import org.insa.algo.shortestpath.ShortestPathAlgorithm;
 import org.insa.algo.weakconnectivity.WeaklyConnectedComponentsAlgorithm;
+
 
 /**
  * Factory class used to register and retrieve algorithms based on their common
@@ -36,6 +39,7 @@ public class AlgorithmFactory {
         // Register your algorithms here:
         // registerAlgorithm(CarPoolingAlgorithm.class, "My Awesome Algorithm",
         // MyCarPoolingAlgorithm.class);
+        registerAlgorithm(CarPoolingAlgorithm.class, "My Awesome Algorithm",CovoiturageAlgorithm.class);
     }
 
     /**

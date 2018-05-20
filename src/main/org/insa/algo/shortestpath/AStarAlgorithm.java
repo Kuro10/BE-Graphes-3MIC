@@ -52,19 +52,19 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         //Algorithm of AStar  
         BinaryHeap <Label> queue = new BinaryHeap<Label>();
         queue.insert(labels[data.getOrigin().getId()]);
-        int nbMarkedNodes = 0;
-        //While there are some unmarked nodes
-        while (nbMarkedNodes != nbNodes && !queue.isEmpty() && !labels[data.getDestination().getId()].isMarked()) {
-        	//queue.printSorted();
 
+        //While there are some unmarked nodes
+        while (!queue.isEmpty() && !labels[data.getDestination().getId()].isMarked()) {
+        	//queue.printSorted();
+        	
         	//Find the minimum of the table "Distances"
         	int costMin = queue.findMin().getId();
         	
         	//System.out.println("Deleted " + labels[costMin]);
         	queue.deleteMin();
-    
+        						
         	labels[costMin].setMark(true);        	
-        	nbMarkedNodes++;
+        											
         	Node markedNode = graph.get(labels[costMin].getId());
         	for (Arc arc : markedNode) {
         		
@@ -95,7 +95,6 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
 					//we only need to insert labels with new better distance in it
 					//without removing the old ones
 					queue.insert(labels[arc.getDestination().getId()]);
-					
 				}
         	}
         }
