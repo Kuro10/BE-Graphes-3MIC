@@ -1,6 +1,7 @@
 package org.insa.algo.shortestpath;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
@@ -59,66 +60,113 @@ public class ShortestPathTestWithMap {
 		
 	}
 	
-
-	public void testScenarioWithoutOracle (String mapName, Mode mode) throws IOException {
-		
-        // Create a graph reader.
-        GraphReader reader = new BinaryGraphReader(
-                new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
-        //done Read the graph.
-        graph = reader.read();
-        
-		if (mode == Mode.TIME) { //Evaluation with time
-			//Fastest path, all roads allowed
-			arcInspector = ArcInspectorFactory.getAllFilters().get(2);
-			//origin = node[0] and destination = node[last]
-    		ShortestPathData data = new ShortestPathData(graph, graph.get(0), graph.get(graph.size()-1), arcInspector);	
-    		DijkstraAlgorithm algoD = new DijkstraAlgorithm(data);	
-    		if (algoD.doRun().getStatus() == Status.OPTIMAL) {	
-	    		//TODO
-    			System.out.println(algoD.doRun().getPath().getLength());
-    		}
-		}
-		
-		if (mode == Mode.LENGTH) { //Evaluation with distance
-			//Shortest path, all roads allowed
-			arcInspector = ArcInspectorFactory.getAllFilters().get(0);
-			//origin = node[0] and destination = node[last]
-			ShortestPathData data = new ShortestPathData(graph, graph.get(0), graph.get(graph.size()-1), arcInspector);	
-    		DijkstraAlgorithm algoD = new DijkstraAlgorithm(data);	
-    		if (algoD.doRun().getStatus() == Status.OPTIMAL) {	
-	    		//TODO 
-     		}
-			
-		}
-	}
 	
 	@Test
 	public void testFastestPathAtINSAWithOracle() throws IOException {
-		String mapName = "/home/commetud/3eme Annee MIC/Graphes-et-Algorithmes/Maps/insa.mapgr";
-		//String mapName = "G:\\3eme_annee\\Graphes\\Maps\\insa.mapgr";
+		//String mapName = "/home/commetud/3eme Annee MIC/Graphes-et-Algorithmes/Maps/insa.mapgr";
+		String mapName = "Maps\\insa.mapgr";
 		testScenarioWithOracle(mapName,Mode.TIME);
 	}
 	
 	@Test
 	public void testShortestPathAtINSAWithOracle() throws IOException {
-		String mapName = "/home/commetud/3eme Annee MIC/Graphes-et-Algorithmes/Maps/insa.mapgr";
-		//String mapName = "G:\\3eme_annee\\Graphes\\Maps\\insa.mapgr";
+		//String mapName = "/home/commetud/3eme Annee MIC/Graphes-et-Algorithmes/Maps/insa.mapgr";
+		String mapName = "Maps\\insa.mapgr";
 		testScenarioWithOracle(mapName,Mode.LENGTH);
 	}	
 	
 	@Test
-	public void testFastestPathAtINSAWithoutOracle() throws IOException {
-		String mapName = "/home/commetud/3eme Annee MIC/Graphes-et-Algorithmes/Maps/insa.mapgr";
-		//String mapName = "G:\\3eme_annee\\Graphes\\Maps\\insa.mapgr";
-		testScenarioWithoutOracle(mapName,Mode.TIME);
+	public void testCheminImpossible() throws IOException {
+		String mapName = "Maps\\insa.mapgr";
+		  // Create a graph reader.
+        GraphReader reader = new BinaryGraphReader(
+                new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
+        //done Read the graph.
+        graph = reader.read();
+		arcInspector = ArcInspectorFactory.getAllFilters().get(0);
+		//origin = node[1] and destination = node[1000]
+		ShortestPathData data = new ShortestPathData(graph, graph.get(1), graph.get(1000), arcInspector);	
+		DijkstraAlgorithm algoD = new DijkstraAlgorithm(data);	
+		assertEquals(algoD.doRun().getStatus(), Status.INFEASIBLE);
 	}
 	
 	@Test
-	public void testShortestPathAtINSAWithoutOracle() throws IOException {
-		String mapName = "/home/commetud/3eme Annee MIC/Graphes-et-Algorithmes/Maps/insa.mapgr";
-		//String mapName = "G:\\3eme_annee\\Graphes\\Maps\\insa.mapgr";
-		testScenarioWithOracle(mapName,Mode.LENGTH);
+	public void testPasDeChemin() throws IOException {
+		String mapName = "Maps\\mayotte.mapgr";
+		  // Create a graph reader.
+        GraphReader reader = new BinaryGraphReader(
+                new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
+        //done Read the graph.
+        graph = reader.read();
+		arcInspector = ArcInspectorFactory.getAllFilters().get(0);
+		//origin = node[1500] and destination = node[4000]
+		ShortestPathData data = new ShortestPathData(graph, graph.get(1500), graph.get(4000), arcInspector);	
+		DijkstraAlgorithm algoD = new DijkstraAlgorithm(data);	
+		assertEquals(algoD.doRun().getStatus(), Status.INFEASIBLE);
 	}
 	
+	@Test
+	public void testCoutCheminsComposants1() throws IOException {
+		//Test en distance
+		String mapName = "Maps\\midi-pyrenees.mapgr";
+		  // Create a graph reader.
+        GraphReader reader = new BinaryGraphReader(
+                new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
+        //done Read the graph.
+        graph = reader.read();
+		arcInspector = ArcInspectorFactory.getAllFilters().get(0);
+		ShortestPathData data1 = new ShortestPathData(graph, graph.get(209905), graph.get(590334), arcInspector);
+		ShortestPathData data2 = new ShortestPathData(graph, graph.get(209905), graph.get(15082), arcInspector);
+		ShortestPathData data3 = new ShortestPathData(graph, graph.get(15082), graph.get(590334), arcInspector);
+		DijkstraAlgorithm algo1 = new DijkstraAlgorithm(data1);
+		DijkstraAlgorithm algo2 = new DijkstraAlgorithm(data2);
+		DijkstraAlgorithm algo3 = new DijkstraAlgorithm(data3);
+		int AC = (int)algo1.doRun().getPath().getLength();
+		int AB = (int)algo2.doRun().getPath().getLength();
+		int BC = (int)algo3.doRun().getPath().getLength();
+		assertEquals(AC, AB + BC);
+	}
+	
+	@Test
+	public void testCoutCheminsComposants2() throws IOException {
+		//Test en temps
+		String mapName = "Maps\\midi-pyrenees.mapgr";
+		  // Create a graph reader.
+        GraphReader reader = new BinaryGraphReader(
+                new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
+        //done Read the graph.
+        graph = reader.read();
+		arcInspector = ArcInspectorFactory.getAllFilters().get(2);
+		ShortestPathData data1 = new ShortestPathData(graph, graph.get(209905), graph.get(590334), arcInspector);
+		ShortestPathData data2 = new ShortestPathData(graph, graph.get(209905), graph.get(15082), arcInspector);
+		ShortestPathData data3 = new ShortestPathData(graph, graph.get(15082), graph.get(590334), arcInspector);
+		DijkstraAlgorithm algo1 = new DijkstraAlgorithm(data1);
+		DijkstraAlgorithm algo2 = new DijkstraAlgorithm(data2);
+		DijkstraAlgorithm algo3 = new DijkstraAlgorithm(data3);
+		int AC = (int)algo1.doRun().getPath().getLength();
+		int AB = (int)algo2.doRun().getPath().getLength();
+		int BC = (int)algo3.doRun().getPath().getLength();
+		assertEquals(AC, AB + BC);
+	}
+	
+	@Test
+	public void testInegaliteTriangulaire() throws IOException {
+		String mapName = "Maps\\midi-pyrenees.mapgr";
+		  // Create a graph reader.
+      GraphReader reader = new BinaryGraphReader(
+    		  new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
+      //done Read the graph.
+      graph = reader.read();
+      arcInspector = ArcInspectorFactory.getAllFilters().get(0);
+      ShortestPathData data1 = new ShortestPathData(graph, graph.get(258986), graph.get(203326), arcInspector);
+      ShortestPathData data2 = new ShortestPathData(graph, graph.get(258986), graph.get(501198), arcInspector);
+      ShortestPathData data3 = new ShortestPathData(graph, graph.get(501198), graph.get(203326), arcInspector);
+      DijkstraAlgorithm algo1 = new DijkstraAlgorithm(data1);
+      DijkstraAlgorithm algo2 = new DijkstraAlgorithm(data2);
+      DijkstraAlgorithm algo3 = new DijkstraAlgorithm(data3);
+      int AC = (int)algo1.doRun().getPath().getLength();
+      int AB = (int)algo2.doRun().getPath().getLength();
+      int BC = (int)algo3.doRun().getPath().getLength();
+      assertTrue((AB + BC > BC) && (AB - BC < BC));
+	}
 }
