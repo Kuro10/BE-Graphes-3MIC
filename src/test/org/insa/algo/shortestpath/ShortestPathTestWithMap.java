@@ -167,6 +167,6 @@ public class ShortestPathTestWithMap {
       int AC = (int)algo1.doRun().getPath().getLength();
       int AB = (int)algo2.doRun().getPath().getLength();
       int BC = (int)algo3.doRun().getPath().getLength();
-      assertTrue((AB + BC > BC) && (AB - BC < BC));
+      assertTrue((AB + BC > AC) && (AB - BC < AC));
 	}
 }
