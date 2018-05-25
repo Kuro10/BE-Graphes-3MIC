@@ -106,6 +106,20 @@ public class ShortestPathTestWithMap {
 	}
 	
 	@Test
+	public void testCheminNul() throws IOException {
+		String mapName = "Maps\\insa.mapgr";
+		// Create a graph reader.
+      GraphReader reader = new BinaryGraphReader(
+              new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
+      //done Read the graph.
+      graph = reader.read();
+      arcInspector = ArcInspectorFactory.getAllFilters().get(0);
+      ShortestPathData data = new ShortestPathData(graph, graph.get(250), graph.get(250), arcInspector);	
+      DijkstraAlgorithm algoD = new DijkstraAlgorithm(data);	
+      assertEquals(algoD.doRun().getStatus(), Status.INFEASIBLE);
+	}
+	
+	@Test
 	public void testCoutCheminsComposants1() throws IOException {
 		//Test en distance
 		String mapName = "Maps\\midi-pyrenees.mapgr";
