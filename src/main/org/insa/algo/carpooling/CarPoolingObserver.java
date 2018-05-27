@@ -32,6 +32,8 @@ public interface CarPoolingObserver {
 	 * @param node Node that has been marked.
 	 */
 	public void notifyNodeMarked(Node node);
+	public void notifyNodeMarked2(Node node);
+	public void notifyNodeMarked3(Node node);
 
 	/**
 	 * Notify the observer that the destination has been reached.

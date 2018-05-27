@@ -21,8 +21,8 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
     }
     
     public long Duration = 0;
-    
     public static int cpt = 0;
+    
     @Override
     public ShortestPathSolution doRun() {
     	
@@ -107,7 +107,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         	}
         }
         
-     
+        System.out.println("what");
         //Destination has no predecessor, the solution is infeasible...  
         if (labels[data.getDestination().getId()].getFather() == null) {
         	solution = new ShortestPathSolution (data, Status.INFEASIBLE);
