@@ -83,7 +83,7 @@ public class PerformanceTest {
 	
 	@Test
 	public void test() throws IOException {
-		//ArrayList<String> mapList = new ArrayList<String>(Arrays.asList(new String[] {"midi-pyrenees"}));
+		//ArrayList<String> mapList = new ArrayList<String>(Arrays.asList(new String[] {"toulouse"}));
 		ArrayList<String> mapList = new ArrayList<String>(Arrays.asList(new String[] {"carre","insa","mayotte", "bordeaux", "toulouse", "benin", "vietnam", "midi-pyrenees","carre-dense", "belgium","greece"}));
 		tester (mapList);
 	}
