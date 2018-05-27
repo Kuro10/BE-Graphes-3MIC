@@ -42,13 +42,6 @@ public class CovoiturageAlgorithm extends CarPoolingAlgorithm{
         notifyOriginCarProcessed(data.getOriginCar());
         notifyOriginPedestrianProcessed(data.getOriginPedestrian());
         
-
-		
-		//Find the shortest path from car's origin to the rest node
-		double tabA[] = new double[nbNodes];
-		double min = Double.POSITIVE_INFINITY;
-		int idRdv=-1;
-		
 		//Initialize array of distances.
         //Initialize array of predecessors.
         //Initialize array of marks.
@@ -56,7 +49,7 @@ public class CovoiturageAlgorithm extends CarPoolingAlgorithm{
         Label [] labelsOfPedes = new Label[nbNodes];
         Label [] labelsOfDes = new Label[nbNodes];
         for (int i=0;i<nbNodes;i++) {
-        	//Calculate of estimated cost from given node to the destination (data.getDestination().getId())
+        	//Calculate of estimated cost from given node to the further node (one of 3 nodes given)
         	double costEstimate = this.disMax(
         			Point.distance(graph.get(i).getPoint(), data.getDestinationCar().getPoint()),
         			Point.distance(graph.get(i).getPoint(), data.getOriginCar().getPoint()),
@@ -75,7 +68,7 @@ public class CovoiturageAlgorithm extends CarPoolingAlgorithm{
         notifyOriginCarProcessed(data.getOriginCar());
         notifyOriginPedestrianProcessed(data.getOriginPedestrian());
                 
-        //Algorithm of AStar
+        //Initialization of Binary Heap 
         BinaryHeap <Label> queueC = new BinaryHeap<Label>();
         queueC.insert(labelsOfCar[data.getOriginCar().getId()]);
         BinaryHeap <Label> queueP = new BinaryHeap<Label>();
@@ -94,6 +87,7 @@ public class CovoiturageAlgorithm extends CarPoolingAlgorithm{
         		&& !queueP.isEmpty()  && !queueC.isEmpty() && !queueD.isEmpty()
         		){
         	
+        	//Find marked nodes from the Car (PCC from the car's origin node to all nodes)
         	if (!labelsOfCar[data.getDestinationCar().getId()].isMarked()) {
             	costMinC = queueC.findMin().getId();
             	queueC.deleteMin();
@@ -122,6 +116,7 @@ public class CovoiturageAlgorithm extends CarPoolingAlgorithm{
             	}
         	}
         	
+        	//Find marked nodes from the Pedestrian (PCC from the pedestrian's origin node to all nodes)  
         	if(!labelsOfPedes[data.getDestinationCar().getId()].isMarked()) {
             	costMinP = queueP.findMin().getId();
             	queueP.deleteMin();
@@ -150,6 +145,7 @@ public class CovoiturageAlgorithm extends CarPoolingAlgorithm{
             	}
         	}
         	
+        	//Find marked nodes from the destination (PCC from the destination node to all nodes, on the graph transpose)  
         	if(!labelsOfDes[data.getOriginCar().getId()].isMarked() || !labelsOfDes[data.getOriginPedestrian().getId()].isMarked() ) {
             	costMinD = queueD.findMin().getId();
             	queueD.deleteMin();
@@ -180,6 +176,10 @@ public class CovoiturageAlgorithm extends CarPoolingAlgorithm{
         	
         }
 		
+        //Find the node which have the "minimum" cost total 
+        double tabA[] = new double[nbNodes];
+		double min = Double.POSITIVE_INFINITY;
+		int idRdv=-1;	
         for (int i=0; i<nbNodes; i++) {
 			if(labelsOfCar[i].isMarked() && labelsOfPedes[i].isMarked() && labelsOfDes[i].isMarked() ) {
 				tabA[i]= labelsOfCar[i].getCost() + labelsOfPedes[i].getCost() + labelsOfDes[i].getCost() ;
@@ -190,6 +190,7 @@ public class CovoiturageAlgorithm extends CarPoolingAlgorithm{
 			}
 		}
 		
+        //Create the path solution
 		if (idRdv == -1) {
 			solution = new CarPoolingSolution (data, Status.INFEASIBLE);
 		}
@@ -207,7 +208,6 @@ public class CovoiturageAlgorithm extends CarPoolingAlgorithm{
 			solution = new CarPoolingSolution(data,Status.OPTIMAL,algo1.run().getPath(),algo2.run().getPath(),algo3.run().getPath());
 		}
 
-		System.out.println(idRdv);
 		return solution;
 	}
 

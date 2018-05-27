@@ -20,8 +20,6 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
     public long Duration = 0;
     
-    public static int cpt = 0;
-    
     @Override
     protected ShortestPathSolution doRun() {
         ShortestPathData data = getInputData();
@@ -51,12 +49,9 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         //While there are some unmarked nodes
         long begin = System.currentTimeMillis();
         while (!queue.isEmpty() && !labels[data.getDestination().getId()].isMarked() ){
-        	//queue.printSorted();
 
         	//Find the minimum of the table "Distances"
         	int costMin = queue.findMin().getId();
-        	
-        	//System.out.println("Deleted " + labels[costMin]);
         	queue.deleteMin();
         	labels[costMin].setMark(true);
 
@@ -73,7 +68,6 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 				double oldDistance = labels[arc.getDestination().getId()].getCost();
 				double newDistance = labels[markedNode.getId()].getCost() + w;
 				
-
 				if (Double.isInfinite(oldDistance) && Double.isFinite(newDistance)) {
 					notifyNodeReached(arc.getDestination());
 				}
@@ -114,8 +108,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	solution = new ShortestPathSolution(data,Status.OPTIMAL, new Path(graph,arcs));
         }
         this.Duration = System.currentTimeMillis() - begin;
-        this.cpt++;
-        System.out.println("D" + this.cpt);
+
         return solution;
     }
 

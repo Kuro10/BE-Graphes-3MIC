@@ -21,7 +21,6 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
     }
     
     public long Duration = 0;
-    public static int cpt = 0;
     
     @Override
     public ShortestPathSolution doRun() {
@@ -52,28 +51,21 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         //Notify observes about the first event (origin processed).
         notifyOriginProcessed(data.getOrigin());
                 
-        //Algorithm of AStar  
+        //Initialize Binary Heap 
         BinaryHeap <Label> queue = new BinaryHeap<Label>();
         queue.insert(labels[data.getOrigin().getId()]);
 
         long begin = System.currentTimeMillis();
         //While there are some unmarked nodes
         while (!queue.isEmpty() && !labels[data.getDestination().getId()].isMarked()) {
-        	//queue.printSorted();
         	
         	//Find the minimum of the table "Distances"
         	int costMin = queue.findMin().getId();
-        	
-        	//System.out.println("Deleted " + labels[costMin]);
         	queue.deleteMin();
-        						
         	labels[costMin].setMark(true);        	
         											
         	Node markedNode = graph.get(labels[costMin].getId());
         	for (Arc arc : markedNode) {
-        		
-        		//double costEstimate1 = Point.distance(markedNode.getPoint(), data.getDestination().getPoint());
-				//labels[markedNode.getId()].setCostEstimate(costEstimate1);
         		
 				// Small test to check allowed roads...
 				if (!data.isAllowed(arc)) {
@@ -82,8 +74,6 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
 				
 				// Retrieve weight of the arc.
 				double w = data.getCost(arc);
-				//double costEstimate2 = Point.distance(arc.getDestination().getPoint(), data.getDestination().getPoint());
-				//labels[arc.getDestination().getId()].setCostEstimate(costEstimate2);
 				double oldDistance = labels[arc.getDestination().getId()].getCost();
 				double newDistance = labels[markedNode.getId()].getCost() + w 
 						- labels[markedNode.getId()].getCostEstimate() 
@@ -107,7 +97,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         	}
         }
         
-        System.out.println("what");
+
         //Destination has no predecessor, the solution is infeasible...  
         if (labels[data.getDestination().getId()].getFather() == null) {
         	solution = new ShortestPathSolution (data, Status.INFEASIBLE);
@@ -132,9 +122,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         	solution = new ShortestPathSolution(data,Status.OPTIMAL, new Path(graph,arcs));
         }
         Duration = System.currentTimeMillis() - begin;
-        this.cpt++;
-        System.out.println("A" + this.cpt);
-        //System.out.println(Duration);
+
         return solution;
     }
 
