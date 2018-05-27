@@ -20,11 +20,6 @@ public class LabelStar extends Label  {
 	}
 	
 	@Override
-	public double setCostEstimate(double cost) {
-		return this.costEstimate = cost;
-	}
-	
-	@Override
 	public double getCost () {
 		return this.cost +this.costEstimate; 
 	}
