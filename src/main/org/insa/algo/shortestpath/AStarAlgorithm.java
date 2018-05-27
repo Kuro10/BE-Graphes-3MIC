@@ -20,6 +20,9 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         super(data);
     }
     
+    public long Duration = 0;
+    
+    public static int cpt = 0;
     @Override
     public ShortestPathSolution doRun() {
     	
@@ -36,12 +39,12 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         //Initialize array of marks.
         Label [] labels = new Label[nbNodes];
         for (int i=0;i<nbNodes;i++) {
-        	//Calculate of estimated cost from given node to the destination (data.getDestination().getId())
+     	//Calculate of estimated cost from given node to the destination (data.getDestination().getId())
         	double costEstimate = Point.distance(graph.get(i).getPoint(), data.getDestination().getPoint());
         	if (data.getMode() == Mode.TIME) {
         		costEstimate = (costEstimate)/(data.getMaximumSpeed()*1000f);
         	}
-        	labels[i] = new LabelStar(i,Double.POSITIVE_INFINITY,null,false,costEstimate);
+        	labels[i] = new LabelStar(i,Double.POSITIVE_INFINITY,null,false, costEstimate);
         }
         labels[data.getOrigin().getId()].setCost(0);
 
@@ -53,6 +56,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         BinaryHeap <Label> queue = new BinaryHeap<Label>();
         queue.insert(labels[data.getOrigin().getId()]);
 
+        long begin = System.currentTimeMillis();
         //While there are some unmarked nodes
         while (!queue.isEmpty() && !labels[data.getDestination().getId()].isMarked()) {
         	//queue.printSorted();
@@ -68,6 +72,9 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         	Node markedNode = graph.get(labels[costMin].getId());
         	for (Arc arc : markedNode) {
         		
+        		//double costEstimate1 = Point.distance(markedNode.getPoint(), data.getDestination().getPoint());
+				//labels[markedNode.getId()].setCostEstimate(costEstimate1);
+        		
 				// Small test to check allowed roads...
 				if (!data.isAllowed(arc)) {
 					continue;
@@ -75,11 +82,12 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
 				
 				// Retrieve weight of the arc.
 				double w = data.getCost(arc);
+				//double costEstimate2 = Point.distance(arc.getDestination().getPoint(), data.getDestination().getPoint());
+				//labels[arc.getDestination().getId()].setCostEstimate(costEstimate2);
 				double oldDistance = labels[arc.getDestination().getId()].getCost();
 				double newDistance = labels[markedNode.getId()].getCost() + w 
 						- labels[markedNode.getId()].getCostEstimate() 
 						+ labels[arc.getDestination().getId()].getCostEstimate();
-				
 
 				if (Double.isInfinite(oldDistance) && Double.isFinite(newDistance)) {
 					notifyNodeReached(arc.getDestination());
@@ -123,6 +131,10 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         	//Create the final solution
         	solution = new ShortestPathSolution(data,Status.OPTIMAL, new Path(graph,arcs));
         }
+        Duration = System.currentTimeMillis() - begin;
+        this.cpt++;
+        System.out.println("A" + this.cpt);
+        //System.out.println(Duration);
         return solution;
     }
 

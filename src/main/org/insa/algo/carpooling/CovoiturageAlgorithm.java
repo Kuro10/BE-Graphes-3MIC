@@ -4,7 +4,7 @@ import org.insa.algo.ArcInspector;
 import org.insa.algo.ArcInspectorFactory;
 import org.insa.algo.AbstractSolution.Status;
 import org.insa.algo.shortestpath.AStarAlgorithm;
-
+import org.insa.algo.shortestpath.DijkstraAlgorithm;
 import org.insa.algo.shortestpath.ShortestPathData;
 import org.insa.algo.utils.BinaryHeap;
 import org.insa.graph.Arc;
@@ -120,7 +120,7 @@ public class CovoiturageAlgorithm extends CarPoolingAlgorithm{
         		&& !queueP.isEmpty()  && !queueC.isEmpty() 
         		){
         	
-        	if (!labelsOfCar[data.getDestinationCar().getId()].isMarked() && !labelsOfCar[data.getOriginPedestrian().getId()].isMarked()) {
+        	if (!labelsOfCar[data.getDestinationCar().getId()].isMarked()) {
             	costMinC = queueC.findMin().getId();
             	queueC.deleteMin();
             	labelsOfCar[costMinC].setMark(true);
@@ -157,7 +157,7 @@ public class CovoiturageAlgorithm extends CarPoolingAlgorithm{
             	}
         	}
         	
-        	if(!labelsOfPedes[data.getDestinationCar().getId()].isMarked() && !labelsOfPedes[data.getOriginCar().getId()].isMarked()) {
+        	if(!labelsOfPedes[data.getDestinationCar().getId()].isMarked()) {
             	costMinP = queueP.findMin().getId();
             	queueP.deleteMin();
             	labelsOfPedes[costMinP].setMark(true);
@@ -202,7 +202,17 @@ public class CovoiturageAlgorithm extends CarPoolingAlgorithm{
 			if(labelsOfCar[i].isMarked() && labelsOfPedes[i].isMarked()) {
 				//System.out.println(i + " is testing");
 				ShortestPathData dataShortestPathRD = new ShortestPathData(graph, graph.get(i), data.getDestinationCar(), arcInspector);
-				AStarAlgorithm algoRD = new AStarAlgorithm(dataShortestPathRD);
+//				AStarAlgorithm algoRD = new AStarAlgorithm(dataShortestPathRD);
+//				if (!algoRD.run().isFeasible()) {
+//					tabA[i]= Double.POSITIVE_INFINITY;
+//					continue;
+//				}
+//				tabA[i] = algoRD.run().getPath().getLength() + labelsOfCar[i].getCost() + labelsOfPedes[i].getCost();
+//				if (tabA[i] < min) {
+//					min = tabA[i];
+//					idRdv = i;
+//				}	
+				DijkstraAlgorithm algoRD = new DijkstraAlgorithm(dataShortestPathRD);
 				if (!algoRD.run().isFeasible()) {
 					tabA[i]= Double.POSITIVE_INFINITY;
 					continue;

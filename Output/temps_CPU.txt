@@ -1,0 +1,22 @@
+Map name : carre| Number of nodes : 25 | Number of arcs : 288 | Data size : 313 | CPU time in Dijsktra : 23ms | Real calculating time : 17ms | CPU time in AStar : 16ms | Real calculating time : 6ms
+
+Map name : insa| Number of nodes : 1349 | Number of arcs : 2887 | Data size : 4236 | CPU time in Dijsktra : 104ms | Real calculating time : 93ms | CPU time in AStar : 212ms | Real calculating time : 53ms
+
+Map name : mayotte| Number of nodes : 7541 | Number of arcs : 17770 | Data size : 25311 | CPU time in Dijsktra : 236ms | Real calculating time : 215ms | CPU time in AStar : 838ms | Real calculating time : 122ms
+
+Map name : bordeaux| Number of nodes : 15322 | Number of arcs : 34692 | Data size : 50014 | CPU time in Dijsktra : 496ms | Real calculating time : 457ms | CPU time in AStar : 1588ms | Real calculating time : 154ms
+
+Map name : toulouse| Number of nodes : 39858 | Number of arcs : 91192 | Data size : 131050 | CPU time in Dijsktra : 904ms | Real calculating time : 862ms | CPU time in AStar : 4070ms | Real calculating time : 302ms
+
+Map name : benin| Number of nodes : 130281 | Number of arcs : 338224 | Data size : 468505 | CPU time in Dijsktra : 3700ms | Real calculating time : 3623ms | CPU time in AStar : 14296ms | Real calculating time : 2564ms
+
+Map name : vietnam| Number of nodes : 388933 | Number of arcs : 977845 | Data size : 1366778 | CPU time in Dijsktra : 10309ms | Real calculating time : 10082ms | CPU time in AStar : 43927ms | Real calculating time : 8669ms
+
+Map name : midi-pyrenees| Number of nodes : 647406 | Number of arcs : 1515714 | Data size : 2163120 | CPU time in Dijsktra : 22274ms | Real calculating time : 20542ms | CPU time in AStar : 68146ms | Real calculating time : 7343ms
+
+Map name : carre-dense| Number of nodes : 360000 | Number of arcs : 5745608 | Data size : 6105608 | CPU time in Dijsktra : 27963ms | Real calculating time : 25873ms | CPU time in AStar : 40651ms | Real calculating time : 7681ms
+
+Map name : belgium| Number of nodes : 1038329 | Number of arcs : 2500962 | Data size : 3539291 | CPU time in Dijsktra : 33608ms | Real calculating time : 32684ms | CPU time in AStar : 105849ms | Real calculating time : 13680ms
+
+Map name : greece| Number of nodes : 1197098 | Number of arcs : 2960862 | Data size : 4157960 | CPU time in Dijsktra : 32067ms | Real calculating time : 28518ms | CPU time in AStar : 137279ms | Real calculating time : 25031ms
+

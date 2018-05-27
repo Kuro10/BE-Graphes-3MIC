@@ -28,7 +28,7 @@ public class ShortestPathTest {
     // List of nodes
     private static Node[] nodes;
 
-    // List of arcs in the graph, a2b is the arc from node A (0) to B (1).
+    // List of arcs in the graph
     @SuppressWarnings("unused")
     private static Arc x1x2, x1x3, x2x4, x2x5, x2x6, x3x1, x3x2, x3x6, x5x3, x5x4, x5x6, x6x5;
 	
